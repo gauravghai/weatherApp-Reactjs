@@ -284,16 +284,19 @@ div#txt {
 .dmy {
   float: left;
   text-align: left;
+  position: absolute;
 }
 
 .temperature {
   width: 50%;
-  float: left;
+  float: right;
+  position: relative;
+  left: 10px;
 }
 
 .temperature p {
   font-family: "Raleway", sans-serif;
-  font-size: 100px;
+  font-size: 80px;
   font-weight: 100;
   margin: 0 40px;
 }
@@ -567,6 +570,7 @@ div#txt {
   }
   .container {
     height: 60vh;
+    margin-top: 60px;
   }
   .mb-icon {
     top: 20% !important;
@@ -669,4 +673,22 @@ div#txt {
 .footer-info a {
   color: floralwhite;
   font-weight: bold;
+}
+.hh_button {
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(to right, #ff8a00, #da1b60);
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  position: relative;
+  margin-top: 30px;
+  margin: 0px;
+  position: absolute;
+  right: 20px;
+  top: 1.5%;
 }

@@ -340,11 +340,6 @@ div#txt {
   padding-left: 20px;
 }
 
-.today-weather ul li span {
-  float: right;
-  padding-right: 10px;
-}
-
 .today-weather ul li:nth-child(5) {
   border-bottom: none;
 }
@@ -621,8 +616,13 @@ div#txt {
   position: relative;
   z-index: 2;
 }
-.search-box .img-box {
-  background: rgb(255, 255, 255, 0.2);
+
+.search-box button {
+  text-indent: -9999px;
+  background: url("https://images.avishkaar.cc/workflow/newhp/search-white.png") 0 0 rgba(255, 255, 255, 0.2);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
   border-radius: 50%;
   height: 32px;
   width: 35px;
@@ -652,19 +652,13 @@ div#txt {
   transition: all 1s ease-in-out;
 }
 .mb-icon {
-  height: 100%;
   position: absolute;
   top: 34%;
   left: 36%;
   z-index: 1;
-  display: none;
 }
 .mb-icon p {
   color: white;
-  width: fit-content;
-  position: relative;
-  left: 24%;
-  top: 2%;
   font-size: 25px;
 }
 .footer-info {

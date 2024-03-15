@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',  url: 'https://github.com/uniquebiwas/weatherApp-Reactjs'
+                git branch: 'master',  url: 'https://github.com/uniquebiwas/weatherApp-Reactjs'
             }
         }
         stage('Print Tag Created') {

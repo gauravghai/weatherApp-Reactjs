@@ -5,7 +5,7 @@ pipeline {
         stage('Print Tag Created') {
             steps {
                 script {
-                    echo "A new tag was created: ${env.CHANGE_ID}"
+                    echo "A new tag was created: ${env.GIT_TAG_NAME}"
                 }
             }
         }

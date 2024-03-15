@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',  url: 'https://github.com/uniquebiwas/weatherApp-Reactjs'
+            }
+        }
         stage('Print Tag Created') {
             steps {
                 script {

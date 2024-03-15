@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     // Add build steps here
-                    sh 'docker build . -t test-app'
+                    sh 'docker build ./docker -t test-app'
                     sh 'docker run -d --name test-app -p 80:80 test-app'
                 }
             }

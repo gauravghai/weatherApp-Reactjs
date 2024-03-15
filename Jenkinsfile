@@ -16,12 +16,25 @@ pipeline {
                 }
             }
         }
-        stage('Print Tag Created') {
+        stage('Login to Docker Hub and Push to docker hub') {
             steps {
                 script {
-                    echo "A new tag was created: ${env.GIT_TAG_NAME}"
-                    sh 'ls'
-                    sh 'pwd'
+                    
+                    withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerpass",usernameVariable:"user")]){
+                    sh "docker tag test-app:latest ${env.user}/test-app:latest"
+                    sh "echo ${env.dockerpass} | docker login -u ${env.user} --password-stdin"
+                    sh "docker push ${env.user}/test-app:latest"
+
+                    }
+        
+                }
+            }
+        }
+        stage('tag push') {
+            steps {
+                script {
+                    echo "A new tag was created and pushed to docker hub
+                
                 }
             }
         }

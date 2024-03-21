@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         git branch: 'main',  url: 'https://github.com/uniquebiwas/Remote-Job-Finder'
-        //     }
-        // }
+        stage('Checkout') {
+            steps {
+                git branch: 'env.BRANCH_NAME',  url: 'https://github.com/uniquebiwas/Remote-Job-Finder'
+            }
+        }
 
         stage('Cleanup') {
             steps {

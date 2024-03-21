@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'env.BRANCH_NAME',  url: 'https://github.com/uniquebiwas/Remote-Job-Finder'
+                git branch: 'test',  url: 'https://github.com/uniquebiwas/Remote-Job-Finder'
             }
         }
 

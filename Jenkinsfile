@@ -10,7 +10,7 @@ pipeline {
         stage('Build and Run') {
             steps {
                 script {
-                    // Build the Docker image and run the container
+                    // Build the Docker image and run the 
                     sh 'docker build . -t test-app' 
 
                 }

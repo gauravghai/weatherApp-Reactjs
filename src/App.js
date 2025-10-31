@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CurrentLocation from "./currentLocation";
 import "./App.css";
 
@@ -13,11 +13,11 @@ function App() {
           Download Source Code
         </a>{" "}
         | Developed by{" "}
-        <a target="_blank" href="https://www.gauravghai.dev/">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.gauravghai.dev/">
           Gaurav Ghai
         </a>{" "}
         | Powered by{" "}
-        <a target="_blank" href="https://www.htmlhints.com/">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.htmlhints.com/">
           HTML HINTS
         </a>
       </div>

@@ -102,53 +102,62 @@ class Weather extends React.Component {
     });
   };
   getWeather = async (lat, lon) => {
-    const api_call = await fetch(
-      `${apiKeys.base}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKeys.key}`
-    );
-    const data = await api_call.json();
-    this.setState({
-      lat: lat,
-      lon: lon,
-      city: data.name,
-      temperatureC: Math.round(data.main.temp),
-      temperatureF: Math.round(data.main.temp * 1.8 + 32),
-      humidity: data.main.humidity,
-      main: data.weather[0].main,
-      country: data.sys.country,
-      // sunrise: this.getTimeFromUnixTimeStamp(data.sys.sunrise),
-
-      // sunset: this.getTimeFromUnixTimeStamp(data.sys.sunset),
-    });
-    switch (this.state.main) {
-      case "Haze":
-        this.setState({ icon: "CLEAR_DAY" });
-        break;
-      case "Clouds":
-        this.setState({ icon: "CLOUDY" });
-        break;
-      case "Rain":
-        this.setState({ icon: "RAIN" });
-        break;
-      case "Snow":
-        this.setState({ icon: "SNOW" });
-        break;
-      case "Dust":
-        this.setState({ icon: "WIND" });
-        break;
-      case "Drizzle":
-        this.setState({ icon: "SLEET" });
-        break;
-      case "Fog":
-        this.setState({ icon: "FOG" });
-        break;
-      case "Smoke":
-        this.setState({ icon: "FOG" });
-        break;
-      case "Tornado":
-        this.setState({ icon: "WIND" });
-        break;
-      default:
-        this.setState({ icon: "CLEAR_DAY" });
+    try {
+      if (typeof lat === "undefined" || typeof lon === "undefined") {
+        return;
+      }
+      const res = await fetch(
+        `${apiKeys.base}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKeys.key}`
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data && data.message ? data.message : `Request failed: ${res.status}`);
+      }
+      const main = data && data.weather && data.weather[0] ? data.weather[0].main : "";
+      let icon = "CLEAR_DAY";
+      switch (main) {
+        case "Haze":
+          icon = "CLEAR_DAY";
+          break;
+        case "Clouds":
+          icon = "CLOUDY";
+          break;
+        case "Rain":
+          icon = "RAIN";
+          break;
+        case "Snow":
+          icon = "SNOW";
+          break;
+        case "Dust":
+          icon = "WIND";
+          break;
+        case "Drizzle":
+          icon = "SLEET";
+          break;
+        case "Fog":
+        case "Smoke":
+          icon = "FOG";
+          break;
+        case "Tornado":
+          icon = "WIND";
+          break;
+        default:
+          icon = "CLEAR_DAY";
+      }
+      this.setState({
+        lat: lat,
+        lon: lon,
+        city: data && data.name,
+        temperatureC: data && data.main ? Math.round(data.main.temp) : undefined,
+        temperatureF: data && data.main ? Math.round(data.main.temp * 1.8 + 32) : undefined,
+        humidity: data && data.main ? data.main.humidity : undefined,
+        main: main,
+        country: data && data.sys ? data.sys.country : undefined,
+        icon: icon,
+        errorMsg: undefined,
+      });
+    } catch (err) {
+      this.setState({ errorMsg: err.message || "Unable to fetch weather data", temperatureC: undefined });
     }
   };
 
@@ -194,7 +203,7 @@ class Weather extends React.Component {
     } else {
       return (
         <React.Fragment>
-          <img src={loader} style={{ width: "50%", WebkitUserDrag: "none" }} />
+          <img alt="Loading weather" src={loader} style={{ width: "50%", WebkitUserDrag: "none" }} />
           <h3 style={{ color: "white", fontSize: "22px", fontWeight: "600" }}>
             Detecting your location
           </h3>

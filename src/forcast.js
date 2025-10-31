@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import apiKeys from "./apiKeys";
 import ReactAnimatedWeather from "react-animated-weather";
@@ -9,29 +9,24 @@ function Forcast(props) {
   const [weather, setWeather] = useState({});
 
   const search = (city) => {
+    const q = typeof city === "string" && city.trim() ? city : query;
+    if (!q) return;
     axios
       .get(
-        `${apiKeys.base}weather?q=${
-          city != "[object Object]" ? city : query
-        }&units=metric&APPID=${apiKeys.key}`
+        `${apiKeys.base}weather?q=${encodeURIComponent(q)}&units=metric&APPID=${apiKeys.key}`
       )
       .then((response) => {
         setWeather(response.data);
         setQuery("");
+        setError("");
       })
-      .catch(function (error) {
-        console.log(error);
-        setWeather("");
+      .catch(function (err) {
+        console.log(err);
+        setWeather({});
         setQuery("");
-        setError({ message: "Not Found", query: query });
+        setError({ message: "Not Found", query: q });
       });
   };
-  function checkTime(i) {
-    if (i < 10) {
-      i = "0" + i;
-    } // add zero in front of numbers < 10
-    return i;
-  }
 
   const defaults = {
     color: "white",
@@ -40,7 +35,18 @@ function Forcast(props) {
   };
 
   useEffect(() => {
-    search("Delhi");
+    axios
+      .get(
+        `${apiKeys.base}weather?q=${encodeURIComponent("Delhi")}&units=metric&APPID=${apiKeys.key}`
+      )
+      .then((response) => {
+        setWeather(response.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+        setWeather({});
+        setError({ message: "Not Found", query: "Delhi" });
+      });
   }, []);
 
   return (
@@ -66,13 +72,14 @@ function Forcast(props) {
           <div className="img-box">
             {" "}
             <img
+              alt="Search"
               src="https://images.avishkaar.cc/workflow/newhp/search-white.png"
-              onClick={search}
+              onClick={() => search(query)}
             />
           </div>
         </div>
         <ul>
-          {typeof weather.main != "undefined" ? (
+          {typeof weather.main !== "undefined" ? (
             <div>
               {" "}
               <li className="cityHead">
@@ -80,6 +87,7 @@ function Forcast(props) {
                   {weather.name}, {weather.sys.country}
                 </p>
                 <img
+                  alt={`Weather icon ${weather.weather[0].main}`}
                   className="temp"
                   src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
                 />
